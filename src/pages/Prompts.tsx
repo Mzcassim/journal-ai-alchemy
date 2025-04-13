@@ -26,12 +26,12 @@ const Prompts = () => {
     },
     {
       id: '2',
-      text: 'Describe a challenge you're currently facing and three possible ways to overcome it.',
+      text: 'Describe a challenge you\'re currently facing and three possible ways to overcome it.',
       category: 'reflection'
     },
     {
       id: '3',
-      text: 'What are three things you're grateful for today?',
+      text: 'What are three things you\'re grateful for today?',
       category: 'gratitude'
     },
     {
@@ -41,7 +41,7 @@ const Prompts = () => {
     },
     {
       id: '5',
-      text: 'What is one skill you'd like to improve this month? What steps can you take to make progress?',
+      text: 'What is one skill you\'d like to improve this month? What steps can you take to make progress?',
       category: 'growth'
     },
     {
@@ -56,7 +56,7 @@ const Prompts = () => {
     },
     {
       id: '8',
-      text: 'You've mentioned feeling overwhelmed at work three times this week. What boundaries could you set to improve your work-life balance?',
+      text: 'You\'ve mentioned feeling overwhelmed at work three times this week. What boundaries could you set to improve your work-life balance?',
       category: 'ai-generated'
     },
   ];
