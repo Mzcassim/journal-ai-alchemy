@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,6 +6,7 @@ import { BarChart2, BookText, PlusCircle } from "lucide-react";
 import { useJournal } from '@/context/JournalContext';
 import RecentEntryCard from '@/components/RecentEntryCard';
 import MoodPieChart from '@/components/MoodPieChart';
+import JournalAISummary from '@/components/JournalAISummary';
 
 const Dashboard = () => {
   const { entries } = useJournal();
@@ -50,7 +50,9 @@ const Dashboard = () => {
   };
 
   const streak = calculateStreak();
-  const recentEntries = entries.slice(0, 3);
+  const recentEntries = [...entries].sort((a, b) => 
+    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  ).slice(0, 3);
   const entryCount = entries.length;
   const uniqueTags = [...new Set(entries.flatMap(entry => entry.tags))].length;
 
@@ -96,7 +98,31 @@ const Dashboard = () => {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <Card className="col-span-2">
+        <Card className="lg:col-span-1">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl">Mood Analysis</CardTitle>
+            <CardDescription>Your emotional patterns</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {entries.length > 0 ? (
+              <div className="h-64">
+                <MoodPieChart entries={entries} />
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-64">
+                <p className="text-muted-foreground mb-4">No mood data yet</p>
+                <Link to="/insights">
+                  <Button variant="outline" size="sm" className="gap-2">
+                    <BarChart2 className="h-4 w-4" />
+                    Explore Insights
+                  </Button>
+                </Link>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+        
+        <Card className="lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
               <CardTitle className="text-xl">Recent Entries</CardTitle>
@@ -137,30 +163,11 @@ const Dashboard = () => {
             )}
           </CardContent>
         </Card>
-        
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xl">Mood Analysis</CardTitle>
-            <CardDescription>Your emotional patterns</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {entries.length > 0 ? (
-              <div className="h-64">
-                <MoodPieChart entries={entries} />
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center h-64">
-                <p className="text-muted-foreground mb-4">No mood data yet</p>
-                <Link to="/insights">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <BarChart2 className="h-4 w-4" />
-                    Explore Insights
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+      </div>
+      
+      {/* AI Insights Section */}
+      <div className="mb-8">
+        <JournalAISummary entries={recentEntries} />
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useJournal } from '@/context/JournalContext';
@@ -18,6 +17,7 @@ import { ArrowLeft, Edit, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import MoodIcon from '@/components/MoodIcon';
 import { toast } from '@/components/ui/use-toast';
+import { JournalAIInsights } from '@/components/JournalAIInsights';
 
 const ViewEntry = () => {
   const { id } = useParams<{ id: string }>();
@@ -106,6 +106,9 @@ const ViewEntry = () => {
           <div dangerouslySetInnerHTML={{ __html: entry.content }} />
         </div>
       </div>
+      
+      {/* AI Insights Component */}
+      <JournalAIInsights entry={entry} />
       
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
